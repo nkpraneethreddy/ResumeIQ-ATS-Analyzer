@@ -1,90 +1,184 @@
 <div align="center">
 
-# ⚡ OptiMatch
+# ResumeIQ — ATS Analyzer
 
-### AI-Powered Resume Analyzer & ATS Scoring System
+### AI-Powered Resume Analysis & Job-Fit Matching
 
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-LLM-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
 
-**Upload your resume. Paste a job description. Get hired faster.**
+**Upload a resume. Add a job description. Understand your fit before you apply.**
 
-[Features](#-features) · [Demo](#-demo) · [Getting Started](#-getting-started) · [Tech Stack](#-tech-stack) · [Contributing](#-contributing)
+[Overview](#-overview) · [Features](#-features) · [Architecture](#-how-it-works) · [Setup](#-getting-started) · [Project Structure](#-project-structure)
 
 </div>
 
 ---
 
-## 📌 What is OptiMatch?
+## 🎯 Overview
 
-OptiMatch is an AI-powered ATS (Applicant Tracking System) that evaluates your resume against any job description using semantic analysis, NLP, and intelligent scoring — giving you actionable feedback before a real recruiter ever sees your application.
+**ResumeIQ** is an AI-powered resume analysis application that compares a candidate's resume with a target job description and turns the comparison into an actionable job-fit report.
+
+Instead of relying only on keyword matching, the system combines document parsing, NLP/semantic analysis, structured scoring, and LLM-generated feedback to surface:
+
+- Overall ATS-style compatibility
+- Relevant and missing skills
+- Resume strengths and weaknesses
+- Job-specific improvement suggestions
+- A visual breakdown that is easy to understand
+
+> **Note:** ATS scores are estimates intended to help candidates improve their applications. They do not represent the scoring system of any particular employer or ATS vendor.
 
 ---
 
 ## ✨ Features
 
-| Feature | Description |
+| Capability | What it does |
 |---|---|
-| 🎯 **ATS Match Score** | Get a 0–100 compatibility score against any job description |
-| 🔍 **Skill Gap Analysis** | Instantly see matched skills, missing skills, and areas to improve |
-| 🧠 **AI Insights** | LLM-powered, context-aware feedback — not just keyword matching |
-| 📄 **PDF Resume Parsing** | Upload any real-world resume PDF; we handle the messy formatting |
-| 📊 **Smart Dashboard** | Visual score breakdown with prioritized recommendations |
-| ⚡ **Real-Time Results** | Optimized backend pipeline with fast response times |
+| 📄 **Resume PDF Analysis** | Extracts useful information from uploaded resumes |
+| 🎯 **Job-Fit Scoring** | Produces a 0–100 compatibility estimate |
+| 🔍 **Skill Gap Analysis** | Highlights matching and missing skills |
+| 🧠 **AI-Powered Insights** | Generates contextual recommendations using an LLM |
+| 📊 **Visual Dashboard** | Presents scores and recommendations in an intuitive interface |
+| ⚡ **API-Based Architecture** | Separates the frontend experience from backend processing |
+| 🔐 **Environment-Based Secrets** | Keeps API credentials outside the source code |
 
 ---
 
-## 🖼️ Demo
+## 🖼️ Application Preview
 
-![Login View](assets/login.png)
+### Login
 
-![Analyse View](assets/analyse.png)
+![ResumeIQ Login](assets/login.png)
 
-![Final View](assets/final.png)
+### Resume Analysis
 
+![ResumeIQ Analysis](assets/analyse.png)
 
+### Results Dashboard
+
+![ResumeIQ Results](assets/final.png)
 
 ---
 
-## ⚙️ How It Works
+## 🧠 How It Works
+
+```text
+                ┌──────────────────────┐
+                │   Resume PDF Upload  │
+                └──────────┬───────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │   Text Extraction    │
+                └──────────┬───────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │   NLP / Processing   │
+                └──────────┬───────────┘
+                           │
+        ┌──────────────────┴──────────────────┐
+        │                                     │
+        ▼                                     ▼
+┌──────────────────┐                 ┌──────────────────┐
+│ Resume Features  │                 │ Job Description  │
+└────────┬─────────┘                 └────────┬─────────┘
+         │                                    │
+         └────────────────┬───────────────────┘
+                          ▼
+                ┌──────────────────────┐
+                │ Semantic Comparison  │
+                └──────────┬───────────┘
+                           ▼
+                ┌──────────────────────┐
+                │ ATS / Fit Scoring    │
+                └──────────┬───────────┘
+                           ▼
+                ┌──────────────────────┐
+                │ AI Recommendations   │
+                └──────────┬───────────┘
+                           ▼
+                ┌──────────────────────┐
+                │ Results Dashboard     │
+                └──────────────────────┘
+```
+
+### Processing flow
+
+1. **Upload** a resume in PDF format.
+2. **Extract** and preprocess the resume content.
+3. **Process** resume and job-description text using NLP techniques.
+4. **Compare** relevant skills, experience, and semantic content.
+5. **Score** the candidate-job match.
+6. **Generate insights** highlighting gaps and improvement opportunities.
+7. **Visualize** the results through the React interface.
+
+---
+
+## 🏗️ Architecture
+
+```text
+┌─────────────────────────────────────────────┐
+│                React Frontend               │
+│        Upload • Dashboard • Results         │
+└──────────────────────┬──────────────────────┘
+                       │ HTTP / REST
+                       ▼
+┌─────────────────────────────────────────────┐
+│                 FastAPI Backend             │
+│      API • Validation • Processing Logic     │
+└───────────────┬─────────────────────────────┘
+                │
+       ┌────────┼───────────────┐
+       ▼        ▼               ▼
+   Resume      NLP /         LLM Layer
+   Parser    Similarity       Insights
+       │        │               │
+       └────────┼───────────────┘
+                ▼
+        Persistence / Data
 
 ```
-Upload Resume (PDF)
-       ↓
-  Text Extraction
-       ↓
-  NLP Processing
-       ↓
- Semantic Matching  ←──  Job Description
-       ↓
-ATS Score + Insights
-       ↓
-Frontend Visualization
-```
 
----
-
-## 🏗️ Tech Stack
+### Core layers
 
 **Frontend**
-- React.js + Vite
+- React
+- Vite
 - Tailwind CSS
+- Interactive analysis and results views
 
 **Backend**
-- FastAPI (Python)
+- FastAPI
+- Python
+- REST API endpoints
+- Resume-processing pipeline
 
-**AI / ML**
-- NLP & Semantic Similarity Models
-- LLM-based suggestions (OpenAI)
+**AI / NLP**
+- Semantic similarity and NLP processing
+- LLM-assisted recommendations
+- Skill and job-fit analysis
 
-**Database**
-- SQLite (dev) / PostgreSQL (prod)
+**Data**
+- SQLite for local development
+- ChromaDB/vector data used by the analysis pipeline where applicable
 
-**DevOps**
-- Docker
-- CI/CD Pipeline
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+|---|---|
+| Frontend | React, Vite, Tailwind CSS |
+| Backend | Python, FastAPI, Uvicorn |
+| AI / NLP | OpenAI, semantic analysis, NLP processing |
+| Data | SQLite, ChromaDB |
+| Migrations | Alembic |
+| Package Management | pip, npm |
+| Development | Git, REST APIs |
 
 ---
 
@@ -92,124 +186,204 @@ Frontend Visualization
 
 ### Prerequisites
 
-- Python 3.10+
-- Node.js 18+
-- An [OpenAI API key](https://platform.openai.com/api-keys)
+Make sure you have:
 
----
+- **Python 3.10+**
+- **Node.js 18+**
+- **npm**
+- An **OpenAI API key**
 
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/bunny182005/AI-Powered-Resume-Analyzer-ATS-Scoring-Job-Fit-Matching-System
-cd AI-Powered-Resume-Analyzer-ATS-Scoring-Job-Fit-Matching-System
+git clone https://github.com/nkpraneethreddy/ResumeIQ-ATS-Analyzer.git
+cd ResumeIQ-ATS-Analyzer
 ```
 
----
-
-### 2. Backend Setup
+### 2. Configure the backend
 
 ```bash
 cd backend
-
-# Create and activate virtual environment
 python -m venv .venv
-source .venv/bin/activate        # macOS / Linux
-.venv\Scripts\activate           # Windows
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start the development server
-PYTHONPATH=. uvicorn src.main:app --reload
 ```
 
-The API will be available at `http://localhost:8000`.
+Activate the environment:
 
----
+**Windows**
 
-### 3. Environment Variables
+```powershell
+.venv\Scripts\activate
+```
 
-Create a `.env` file inside the `backend/` directory:
+**macOS / Linux**
+
+```bash
+source .venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Add environment variables
+
+Create `backend/.env`:
 
 ```env
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
----
+Never commit your real API key to GitHub.
 
-### 4. Frontend Setup
+### 4. Start the backend
+
+From the `backend` directory:
+
+```bash
+PYTHONPATH=. uvicorn src.main:app --reload
+```
+
+API:
+
+```text
+http://localhost:8000
+```
+
+Interactive API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+### 5. Start the frontend
+
+Open another terminal:
 
 ```bash
 cd frontend
-
 npm install
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`.
+The Vite development server normally runs at:
+
+```text
+http://localhost:5173
+```
 
 ---
 
 ## 📁 Project Structure
 
-```
-.
+```text
+ResumeIQ-ATS-Analyzer/
+│
 ├── backend/
 │   ├── src/
 │   │   └── main.py
+│   ├── data/
+│   │   ├── sample_jd/
+│   │   └── sample_resumes/
+│   ├── migrations/
 │   ├── requirements.txt
 │   └── .env
+│
 ├── frontend/
 │   ├── src/
+│   ├── public/
 │   ├── package.json
 │   └── vite.config.js
+│
+├── assets/
+│   ├── login.png
+│   ├── analyse.png
+│   └── final.png
+│
 └── README.md
 ```
 
 ---
 
-## 🎯 Use Cases
+## 📊 Example Output
 
-- 🎓 **Students** — Tailor resumes for internships and entry-level roles
-- 💼 **Job Seekers** — Maximize ATS pass rates before applying
-- 🧑‍💻 **Developers** — Reference implementation for AI-powered document analysis
-- 🏢 **Recruiters** — Quickly screen and score incoming applications
+A typical analysis produces a report containing:
 
----
+```text
+Overall Job-Fit Score
+        82 / 100
 
-## 🔮 Roadmap
+Matched Skills
+✓ Python
+✓ FastAPI
+✓ REST APIs
+✓ SQL
 
-- [ ] AI-powered resume auto-rewrite
-- [ ] Interview question generation based on skill gaps
-- [ ] Multi-job comparison mode
-- [ ] Advanced analytics dashboard
-- [ ] Support for DOCX resumes
+Skill Gaps
+• Docker
+• Kubernetes
+• CI/CD
 
----
+Recommendations
+→ Add measurable project outcomes
+→ Highlight backend deployment experience
+→ Include missing technologies where genuinely applicable
+```
 
-## 🤝 Contributing
-
-Contributions are welcome! Here's how to get started:
-
-1. Fork the repository
-2. Create a feature branch — `git checkout -b feature/your-feature`
-3. Commit your changes — `git commit -m 'Add your feature'`
-4. Push to your branch — `git push origin feature/your-feature`
-5. Open a Pull Request
-
-Please open an issue first for major changes so we can discuss the approach.
+The recommendations are intended to help candidates make **job-specific improvements** rather than blindly stuffing keywords into a resume.
 
 ---
 
-## 📜 License
+## 🔐 Security Notes
 
-This project is licensed under the [MIT License](LICENSE).
+- Keep API keys in `.env` files or environment variables.
+- Never commit secrets, tokens, or production credentials.
+- Generated databases/vector stores should normally remain outside version control.
+- For production deployments, use a managed database and secure secret-management solution.
+
+---
+
+## 🔮 Future Improvements
+
+- [ ] Resume auto-rewriting with user approval
+- [ ] DOCX resume support
+- [ ] Multiple job-description comparison
+- [ ] Explainable score breakdown by category
+- [ ] Interview-question generation from skill gaps
+- [ ] Job recommendation engine
+- [ ] Recruiter analytics dashboard
+- [ ] Background processing for large documents
+- [ ] Production authentication and role-based access
+- [ ] Automated evaluation benchmarks for matching quality
+
+---
+
+## 📌 Portfolio Highlights
+
+This project demonstrates practical experience with:
+
+- AI-assisted document analysis
+- Semantic matching between unstructured documents
+- LLM integration through an API
+- FastAPI backend development
+- React frontend development
+- REST API design
+- Vector-search/data workflows
+- Environment and secret management
+- Full-stack AI application architecture
+
+---
+
+## 📄 License & Attribution
+
+This repository contains an adaptation of an existing open-source project. Review the original repository's license and preserve any required attribution when redistributing or substantially modifying the code.
 
 ---
 
 <div align="center">
 
-If OptiMatch helped you land an interview, give it a ⭐ — it means a lot!
+### ResumeIQ
+**Understand your resume. Understand the job. Improve the match.**
 
 </div>
